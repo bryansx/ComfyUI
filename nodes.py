@@ -1582,6 +1582,7 @@ class SaveImage:
         results = list()
         for (batch_number, image) in enumerate(images):
             i = 255. * image.cpu().numpy()
+            i = np.nan_to_num(i, nan=0, posinf=255, neginf=0)  # Replace NaN with 0, inf with max/min
             img = Image.fromarray(np.clip(i, 0, 255).astype(np.uint8))
             metadata = None
             if not args.disable_metadata:
